@@ -29,6 +29,6 @@ if (admin.apps.length === 0) {
 
 // eslint-disable-next-line no-unused-vars
 const auth = admin.auth();
-const messaging = getMessaging(app);
+// const messaging = getMessaging(app);
 
 module.exports = admin;
