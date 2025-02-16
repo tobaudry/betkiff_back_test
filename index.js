@@ -16,6 +16,7 @@ const organisationRoutes = require("./routes/organisations");
 const authRoutes = require("./routes/auth");
 const betsRoutes = require("./routes/bets");
 const cardRoutes = require("./routes/card");
+const notificationsRoutes = require("./routes/notifications");
 
 // Utiliser les routes
 app.use("/users", usersRoutes);
@@ -23,6 +24,7 @@ app.use("/organisations", organisationRoutes);
 app.use("/auth", authRoutes);
 app.use("/bets", betsRoutes);
 app.use("/card", cardRoutes);
+app.use("/notifications", notificationsRoutes);
 
 app.listen(5002, () => {
   console.log("Server running on port 5002");

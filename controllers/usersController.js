@@ -25,16 +25,27 @@ const getUsers = (req, res) => {
 
 const saveUserToken = async (req, res) => {
   const { userId, token, idOrganisation } = req.body;
+
   if (!userId || !token || !idOrganisation) {
     return res.status(400).json({
-      error: "Données manquantes. Assurez-vous d'inclure userId et token et idOrganisation.",
+      error:
+        "Données manquantes. Assurez-vous d'inclure userId, token et idOrganisation.",
     });
   }
+
   try {
-    await db.ref(`organisations/${idOrganisation}/users/${userId}`).update({ fcmToken: token });
-    res.status(200).json({ success: "Token mise à jour avec succès." });
+    // 1️⃣ Sauvegarde du FCM dans la table utilisateur
+    await db.ref(`users/${userId}/fcmToken`).set(token);
+
+    // 2️⃣ Sauvegarde du FCM dans `organisations/${idOrganisation}/users/${userId}`
+    await db
+      .ref(`organisations/${idOrganisation}/users/${userId}/fcmToken`)
+      .set(token);
+
+    res.status(200).json({ success: "Token mis à jour avec succès." });
   } catch (error) {
-    res.status(500).json({ error: "Failed to save token" });
+    console.error("Erreur lors de la mise à jour du token :", error);
+    res.status(500).json({ error: "Échec de l'enregistrement du token" });
   }
 };
 
@@ -57,7 +68,7 @@ const getUserById = (req, res) => {
     .catch((error) => {
       console.error(
         "Erreur lors de la récupération de l'utilisateur :",
-        error.message,
+        error.message
       );
       res.status(500).send(error.message); // En cas d'erreur
     });
@@ -167,7 +178,7 @@ const deleteUser = async (req, res) => {
 
   try {
     const userInOrganisationRef = db.ref(
-      `organisations/${idOrganisation}/users/${userId}`,
+      `organisations/${idOrganisation}/users/${userId}`
     );
     await userInOrganisationRef.remove(); // Appeler remove sur la référence spécifique à l'utilisateur
 
@@ -212,7 +223,7 @@ const getIdOrgaByIdUser = async (req, res) => {
   } catch (error) {
     console.error(
       "Erreur lors de la récupération de l'idOrganisation :",
-      error,
+      error
     );
     res.status(500).json({ error: "Erreur serveur." });
   }
