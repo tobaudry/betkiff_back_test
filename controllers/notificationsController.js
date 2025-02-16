@@ -80,7 +80,7 @@ const sendNotificationToOrganization = async (req, res) => {
       tokens,
     };
 
-    const response = await messaging.sendMulticast(message);
+    const response = await messaging.sendEachForMulticast(message);
     res.json({
       success: "Notifications envoyées à l'organisation !",
       response,
