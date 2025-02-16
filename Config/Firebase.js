@@ -30,4 +30,4 @@ if (admin.apps.length === 0) {
 const auth = admin.auth();
 const messaging = admin.messaging();
 
-module.exports = { admin, messaging };
+module.exports = admin;
