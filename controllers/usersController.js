@@ -34,12 +34,8 @@ const saveUserToken = async (req, res) => {
   }
 
   try {
-    // 1️⃣ Sauvegarde du FCM dans la table utilisateur
-    await db.ref(`users/${userId}/fcmToken`).set(token);
-
-    // 2️⃣ Sauvegarde du FCM dans `organisations/${idOrganisation}/users/${userId}`
     await db
-      .ref(`organisations/${idOrganisation}/users/${userId}/fcmToken`)
+      .ref(`organisations/${idOrganisation}/fcmToken/${userId}`)
       .set(token);
 
     res.status(200).json({ success: "Token mis à jour avec succès." });

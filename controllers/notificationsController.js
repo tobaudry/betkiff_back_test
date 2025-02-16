@@ -58,7 +58,7 @@ const sendNotificationToOrganization = async (req, res) => {
   try {
     // Récupérer tous les tokens FCM enregistrés pour l'organisation
     const snapshot = await db
-      .ref(`organisations/${idOrganisation}/FCM`)
+      .ref(`organisations/${idOrganisation}/fcmToken`)
       .once("value");
 
     if (!snapshot.exists()) {
@@ -67,7 +67,7 @@ const sendNotificationToOrganization = async (req, res) => {
         .json({ error: "Aucun token trouvé pour cette organisation." });
     }
 
-    const tokens = Object.values(snapshot.val());
+    const tokens = Object.values(snapshot.val()).filter((token) => token); // Filtrer les valeurs vides
 
     if (tokens.length === 0) {
       return res
@@ -80,7 +80,7 @@ const sendNotificationToOrganization = async (req, res) => {
       tokens,
     };
 
-    const response = await messaging.sendMulticast(message);
+    const response = await messaging.sendEachForMulticast(message);
     res.json({
       success: "Notifications envoyées à l'organisation !",
       response,

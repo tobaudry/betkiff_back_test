@@ -6,7 +6,6 @@ const app = express();
 
 // Middleware pour gérer les CORS
 app.use(cors({ origin: true }));
-
 // Middleware pour parser le JSON dans les requêtes
 app.use(express.json()); // <-- Ajoutez ceci
 
