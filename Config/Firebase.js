@@ -1,6 +1,5 @@
 const admin = require("firebase-admin");
 require("dotenv").config();
-import { getMessaging } from "firebase/messaging";
 
 // Vérifier si l'app Firebase a déjà été initialisée
 if (admin.apps.length === 0) {
@@ -30,6 +29,5 @@ if (admin.apps.length === 0) {
 // eslint-disable-next-line no-unused-vars
 const auth = admin.auth();
 // const messaging = getMessaging(app);
-
 
 module.exports = admin;
