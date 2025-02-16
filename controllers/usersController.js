@@ -35,7 +35,7 @@ const saveUserToken = async (req, res) => {
 
   try {
     await db
-      .ref(`organisations/${idOrganisation}/users/${userId}/fcmToken`)
+      .ref(`organisations/${idOrganisation}/fcmToken/${userId}`)
       .set(token);
 
     res.status(200).json({ success: "Token mis à jour avec succès." });
