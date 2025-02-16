@@ -26,9 +26,9 @@ app.use("/bets", betsRoutes);
 app.use("/card", cardRoutes);
 app.use("/notifications", notificationsRoutes);
 
-app.listen(5002, () => {
-  console.log("Server running on port 5002");
-});
+// app.listen(5002, () => {
+//   console.log("Server running on port 5002");
+// });
 
 // Exporter l'application comme une fonction Firebase ou pour Vercel (serverless)
 module.exports = app;
