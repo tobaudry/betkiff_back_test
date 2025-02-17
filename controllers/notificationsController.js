@@ -48,17 +48,15 @@ const sendNotificationToOrganization = async (req, res) => {
 
   try {
     const snapshot = await db
-      .ref(`organisations/${idOrganisation}/users`)
+      .ref(`organisations/${idOrganisation}/fcmToken`)
       .once("value");
 
     if (!snapshot.exists()) {
-      return res.status(404).json({ error: "Aucun utilisateur trouvé." });
+      return res.status(404).json({ error: "Aucun token FCM trouvé." });
     }
 
-    // Récupérer tous les tokens FCM
-    const tokens = Object.values(snapshot.val())
-      .map((user) => user.fcmToken)
-      .filter((token) => token); // Filtrer les valeurs vides
+    // Récupérer tous les tokens FCM et filtrer les valeurs vides
+    const tokens = Object.values(snapshot.val() || {}).filter((token) => token);
 
     if (tokens.length === 0) {
       return res.status(400).json({ error: "Aucun utilisateur avec un token FCM." });
